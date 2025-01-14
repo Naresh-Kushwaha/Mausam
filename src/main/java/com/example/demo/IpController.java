@@ -43,7 +43,7 @@ public class IpController {
     }
     @GetMapping("/location")
     public String searchWeather(@RequestParam String city) throws IOException, InterruptedException {
-        String url2=String.format("https://api.openweathermap.org/data/2.5/weather?units=metric&q=%s&appid=4c3fb3dc336e3f3a2ccfc656bf857318","delhi");
+        String url2=String.format("https://api.openweathermap.org/data/2.5/weather?units=metric&q=%s&appid=4c3fb3dc336e3f3a2ccfc656bf857318",city);
         HttpRequest request2 = HttpRequest.newBuilder()
                 .uri(URI.create(url2))
                 .method("GET", HttpRequest.BodyPublishers.noBody())
