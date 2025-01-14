@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +22,11 @@ import java.net.http.HttpResponse;
 @RestController
 @RequestMapping("/api")
 public class IpController {
+    private final RestTemplate restTemplate;
 
+    public IpController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
     @GetMapping("/mylocation")
     public String getUserIp(HttpServletRequest request) throws IOException, InterruptedException {
         String ipAddress = request.getHeader("X-Forwarded-For"); // Check for proxy header
@@ -29,27 +34,13 @@ public class IpController {
             ipAddress = request.getRemoteAddr();
         }
         String url=String.format("http://api.ipapi.com/%s?access_key=49a5c71195237332c37d87fc09b2b19f",ipAddress);
-        HttpRequest requestData=HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .method("GET",HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String>response=HttpClient.newHttpClient().send(requestData, HttpResponse.BodyHandlers.ofString());
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonResponse = objectMapper.readTree(response.body());
-        String city= String.valueOf(jsonResponse.get("city"));
-        return searchWeather(city);
-
+          IpResponse response=restTemplate.getForObject(url, IpResponse.class);
+        return searchWeather(response.getCity());
 
     }
     @GetMapping("/location")
     public String searchWeather(@RequestParam String city) throws IOException, InterruptedException {
-        String url2=String.format("https://api.openweathermap.org/data/2.5/weather?units=metric&q=%s&appid=4c3fb3dc336e3f3a2ccfc656bf857318",city);
-        HttpRequest request2 = HttpRequest.newBuilder()
-                .uri(URI.create(url2))
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
-        ObjectMapper objectMapper=new ObjectMapper();
-        return response2.body();
+        String url=String.format("https://api.openweathermap.org/data/2.5/weather?units=metric&q=%s&appid=4c3fb3dc336e3f3a2ccfc656bf857318",city);
+        return restTemplate.getForObject(url, String.class);
     }
 }
