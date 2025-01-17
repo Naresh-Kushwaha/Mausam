@@ -1,0 +1,11 @@
+spring:
+  application:
+        name: WeatherApi
+
+
+ipapi:
+   api: http://api.ipapi.com
+   key: 49a5c71195237332c37d87fc09b2b19f
+weather:
+    api: https://weather-api167.p.rapidapi.com/api/weather
+    key: 0c656e7a1emsh95120070af84edbp127857jsn34f2e3bd6fcb

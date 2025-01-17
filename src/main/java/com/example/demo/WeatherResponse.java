@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class IpResponse {
+public class WeatherResponse {
     private String city;
 
     public String getCity() {
