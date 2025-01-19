@@ -5,7 +5,7 @@ spring:
 
 ipapi:
    api: http://api.ipapi.com
-   key: 2fe07562c4ae9b3662d08439225f4ae9
+   key: 1f365e0753a868dcffc48bbf9c648f72
 weather:
     api: https://weather-api167.p.rapidapi.com/api/weather
     key: 0c656e7a1emsh95120070af84edbp127857jsn34f2e3bd6fcb
