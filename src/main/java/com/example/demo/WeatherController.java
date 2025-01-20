@@ -34,7 +34,15 @@ public class WeatherController {
         String url=String.format("%s/%s?access_key=%s",ipapiurl,ipAddress,ipapikey);
           IpapiResponse response=restTemplate.getForObject(url, IpapiResponse.class);
         assert response != null;
-        return searchWeather(response.getRegion_name());
+        String city="";
+        for(int i=0;i<response.getCity().length();i++){
+            if(response.getCity().charAt(i)==','){
+                city=response.getCity().substring(0,i);
+                break;
+            }
+
+        }
+        return searchWeather(city);
 
 
     }
@@ -42,7 +50,6 @@ public class WeatherController {
     public String searchWeather(@RequestParam String city) throws IOException, InterruptedException {
         String url=String.format("https://api.openweathermap.org/data/2.5/weather?units=metric&q=%s&appid=4c3fb3dc336e3f3a2ccfc656bf857318",city);
         return restTemplate.getForObject(url, String.class);
-
 
     }
 
