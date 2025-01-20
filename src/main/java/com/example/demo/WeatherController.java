@@ -34,7 +34,7 @@ public class WeatherController {
         String url=String.format("%s/%s?access_key=%s",ipapiurl,ipAddress,ipapikey);
           IpapiResponse response=restTemplate.getForObject(url, IpapiResponse.class);
         assert response != null;
-        String city="";
+        String city=response.getCity();
         for(int i=0;i<response.getCity().length();i++){
             if(response.getCity().charAt(i)==','){
                 city=response.getCity().substring(0,i);
