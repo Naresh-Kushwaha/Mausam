@@ -57,3 +57,4 @@ It automatically detects your IP address, retrieves your city, and displays the 
 ---
 
 > *“Weather changes every day, but Mausam always keeps you informed.”* ☁️
+-  live: https://weather-app-frontend-rouge-five.vercel.app/
